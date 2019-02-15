@@ -97,6 +97,16 @@
         $("#start").click(function () {
             var player=$(".player:visible");
 
+
+            if(player.length==0){
+                alert("请选择玩家")
+                return
+            }
+            if(player.length==1){
+                alert("玩家数量不够哦")
+                return
+            }
+
             $("#result").val("");
             $(".show").text("");
 
