@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>party</title>
+
+    <script src="jquery-1.10.2.min.js"></script>
+    <style id="mianStyle">
+
+
+
+    </style>
+    <style id="dialogStyle">
+
+        * {
+            font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            font-size: 14px;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            list-style-type: none;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+        img {
+            border: none;
+            vertical-align: middle;
+        }
+        .hide {
+            display: none;
+        }
+        .left {
+            float: left;
+        }
+        /* 一般按钮 */
+        .btn {
+            cursor: pointer;
+            color: #fff;
+            border-color: #417FC8;
+            background: -moz-linear-gradient(top,#4a90e2 0,#4a90e2 100%);
+            background: -webkit-linear-gradient(top,#4a90e2 0,#4a90e2 100%);
+            background: -o-linear-gradient(top,#4a90e2 0,#4a90e2 100%);
+            background: -ms-linear-gradient(top,#4a90e2 0,#4a90e2 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4A90E2', endColorstr='#4A90E2', GradientType=0);
+            background: linear-gradient(top,#4a90e2 0,#4a90e2 100%);
+            border-radius: 3px;
+            height: 28px;
+            line-height: 28px;
+            padding: 0px 10px;
+            margin: 0px 20px;
+        }
+        .btn:active {
+            box-shadow: #c4d7ee;
+            color: #c4d7ee;
+        }
+        /* 弹窗 */
+        .dialog {
+            width: 50%;
+            position: absolute;
+            top: 10%;
+            left: 20%;
+            z-index: 2;
+            background: white;
+            border-radius: 3px;
+            border: 1px solid #678fe6;
+        }
+        /* 弹窗上部 */
+        .dlg_top {
+            position: relative;
+            height: 28px;
+            z-index: 3;
+            background: #c4d7ee;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            border-bottom: 1px solid #eec;
+            cursor: move;
+        }
+        /* 弹窗右上角 ico */
+        .dlg_btn_ico {
+            float: right;
+            background: transparent;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin-right: 15px;
+            margin-top: 5px;
+            background-repeat: no-repeat;
+        }
+        /* 弹窗右上角 ico 鼠标浮上去的样式 */
+        .dlg_btn_ico:hover {
+            background-color: #eee;
+        }
+        /* 最小化 */
+        /* .dlg_btn_min_top {
+            background-image: url(../images/ico_min.png);
+        } */
+        /* 最大化 */
+        .dlg_btn_max_top {
+            background-image: url(../images/ico_max.png);
+        }
+        /* 还原 */
+        .dlg_btn_reback_top {
+            background-image: url(../images/ico_reback.png);
+        }
+        /* 关闭 */
+        .dlg_btn_close_top {
+            background-image: url(../images/ico_close.png);
+        }
+        /* 左上角logo */
+        .dlg_logo {
+            margin-left: 5px;
+            margin-top: -3px;
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        /* 弹窗标题 */
+        .dlg_title {
+            line-height: 28px;
+            margin-left: 5px;
+        }
+        /* 弹窗内容 */
+        .dlg_content {
+            position: relative;
+            min-height: 300px;
+            overflow-y: auto;
+            margin-right: 4px;
+            text-align: center;
+        }
+        /* 弹窗底部 */
+        .dlg_bottom {
+            position: absolute;
+            height: 35px;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            z-index: 3;
+            padding-top: 5px;
+            background: #f3f3f3;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            border-top: 1px solid #eec;
+            text-align: center;
+        }
+        /* 缩放时右拉块 */
+        #dlg_right {
+            width: 15px;
+            height: 100%;
+            float: right;
+            position: absolute;
+            right: 0;
+            top: 0;
+            cursor: e-resize;
+            overflow: hidden;
+            opacity: 0;
+            z-index: 3;
+        }
+        /* 缩放时下拉块 */
+        #dlg_bottom {
+            width:100%;
+            height:15px;
+            position:absolute;
+            left:0;
+            bottom:0;
+            cursor:n-resize;
+            overflow:hidden;
+            opacity:0;
+            z-index:3;
+        }
+        /* 缩放时右下拉块 */
+        #dlg_right_bottom{
+            width:15px;
+            height:15px;
+            position:absolute;
+            right:0;
+            bottom:0;
+            cursor:nw-resize;
+            overflow:hidden;
+            font-size:12px;
+            text-align:center;
+            line-height:15px;
+            float:right;
+            z-index:4;
+        }
+
+
+
+        .right {
+            float: right;
+        }
+        .left {
+            float: left;
+        }
+
+        .nameInput {
+            border: 1px solid black;
+        }
+
+    </style>
+    <style id="close">
+        .close {
+            position: absolute;
+            right: -25px;
+            top: -25px;
+            width: 50px;
+            height: 50px;
+            background: silver;
+            border-radius: 25px;
+            box-shadow: 2px 2px 5px 0px black;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            background: red;
+        }
+        .close:before {
+            position: absolute;
+            content: '';
+            width: 30px;
+            height: 10px;
+            background: white;
+            transform: rotate(45deg);
+            top: 20px;
+            left: 10px;
+        }
+        .close:after{
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 10px;
+            background: white;
+            transform: rotate(-45deg);
+            top: 20px;
+            left: 10px;
+        }
+    </style>
+    <style id="frame">
+        .frame {
+            display: none;
+            border: 1px solid black;
+            height: 600px;
+        }
+    </style>
+
+</head>
+<body>
+
+<label id="playerName">还没有登录哦</label>
+<!--<input id="btn_show_dialog" type="button" value="show dialog" class="btn" style="margin-left:50px; margin-top:100px"/>-->
+<button class="btn" id="logout">退出，更换用户</button>
+<br>
+<br>
+
+<button class="btn" id="RPS">包剪锤</button>
+<br>
+<iframe id="RPS_frame" src="RPS/RPS.html" class="frame" scrolling="no"></iframe>
+
+
+
+
+
+<!--弹出框-->
+<div id="dialog" class="dialog hide" minheight="320" minwidth="660">
+    <div id="dlg_top" class="dlg_top">
+        <label class="dlg_title">弹出窗口</label>
+        <!--<input class="dlg_btn_close dlg_btn_ico dlg_btn_close_top" type="button"/>-->
+        <!--<input class="dlg_btn_ico dlg_btn_max_top" type="button"/>-->
+        <div class="close"></div>
+    </div>
+    <div class="dlg_content">
+        <br>
+        你叫什么名字呢&nbsp&nbsp<input class="nameInput"type="text">
+    </div>
+    <div class="dlg_bottom">
+        <input id="dlg_submit" class="btn" type="button" value="提交" />
+        <input class="dlg_btn_close btn" type="button" value="关闭" />
+    </div>
+    <div id="dlg_right"></div>
+    <div id="dlg_right_bottom"></div>
+    <div id="dlg_bottom"></div>
+
+</div>
+
+
+</body>
+
+<script>
+        var player;
+    $(document).ready(function () {
+
+        player=$.cookie('player');
+        console.log(player);
+        //读取cookie
+        if(player!=null){
+            alert("欢迎你，"+player);
+            $("#playerName").text(player);
+
+        }
+        else{
+            showDialog();
+        }
+
+        $("#playerName").change(function () {
+            $(this).text(player);
+        });
+
+
+
+
+        $("#logout").click(function () {
+            // $.cookie('player',null);
+            $.removeCookie('player');
+            alert("退出成功");
+            window.location.reload();
+        })
+
+        $("#RPS").click(function () {
+            $("#RPS_frame").show();
+        })
+
+
+
+    })
+
+
+
+
+
+
+</script>
+
+<script id="dialogWindow">
+    // 最大化时保存弹窗的位置大小
+    var preDialogWidth = 0;
+    var preDialogHeight = 0;
+    var preDialogLeft = "0px";
+    var preDialogTop = "0px";
+    // 页面初始化
+    $(function () {
+        // 常用功能
+        $("#btn_show_dialog").bind("click", showDialog);
+        $(".dlg_btn_close").bind("click", hideDialog);
+        $(".close").bind("click",hideDialog);
+        $("#dlg_submit").bind("click", submitHandler);
+
+        // 移动
+        $("#dialog").bind("mousedown", moveHandler);
+
+        // 最大化 || 还原
+        $(".dlg_btn_max_top").bind("click", maxDialog);
+        $(".dlg_btn_reback_top").bind("click", rebackDialog);
+    });
+
+    // 还原
+    function rebackDialog() {
+        el_dialog = $("#dialog")[0];
+        el_dialog.style.left = preDialogLeft;
+        el_dialog.style.top = preDialogTop;
+        el_dialog.style.width = preDialogWidth + "px";
+        el_dialog.style.height = preDialogHeight + "px";
+
+        $(this).blur();
+        $(this).removeClass("dlg_btn_reback_top").addClass("dlg_btn_max_top");
+        $(".dlg_btn_max_top").unbind("click").bind("click", maxDialog);
+    }
+    // 最大化
+    function maxDialog() {
+        el_dialog = $("#dialog")[0];
+        preDialogWidth = el_dialog.offsetWidth;
+        preDialogHeight = el_dialog.offsetHeight;
+        preDialogLeft = el_dialog.style.left;
+        preDialogTop = el_dialog.style.top;
+        el_dialog.style.left = 0 + "px";
+        el_dialog.style.top = 0 + "px";
+        el_dialog.style.width = window.innerWidth - 5 + "px";
+        el_dialog.style.height = window.innerHeight - 5 + "px";
+        $(this).blur();
+        $(this).removeClass("dlg_btn_max_top").addClass("dlg_btn_reback_top");
+        $(".dlg_btn_reback_top").unbind("click").bind("click", rebackDialog);
+    }
+    // 移动
+    function moveHandler(evt) {
+        var $trgt = $(event.target);
+        if (!$trgt.hasClass("dlg_top")) return;
+
+        var $this = $(this);
+        var el = $this[0];
+        var oevent = evt || event;
+        var distanceX = oevent.clientX - el.offsetLeft;
+        var distanceY = oevent.clientY - el.offsetTop;
+        $(document).bind("mousemove", function (evt) {
+            var oevent = evt || event;
+            el.style.left = oevent.clientX - distanceX + 'px';
+            el.style.top = oevent.clientY - distanceY + 'px';
+        });
+        $(document).bind("mouseup", function () {
+            $(document).unbind("mousemove");
+            $(document).unbind("mouseup");
+        });
+    }
+    // 显示弹窗
+    function showDialog() {
+        $("#dialog").show();
+    }
+    // 隐藏弹窗
+    function hideDialog() {
+        $("#dialog").hide();
+    }
+    // 提交事件
+    function submitHandler() {
+        if($(".nameInput").text()==null ||$(".nameInput").text()=="")
+        $.cookie('player', $(".nameInput").val(), { expires: 1/24 });
+        player=$.cookie('player');
+        $("#playerName").text(player);
+        alert("提交成功");
+        hideDialog();
+    }
+    // 拖拽缩放：支持右拉 || 下拉 || 右下拉
+    window.onload = function () {
+        var el_dlg_right_bottom = document.getElementById("dlg_right_bottom");
+        var el_dialog = document.getElementById("dialog");
+        var minHeight = $(el_dialog).attr("minheight");
+        var minWidth = $(el_dialog).attr("minwidth");
+        var right = document.getElementById("dlg_right");
+        var bottom = document.getElementById("dlg_bottom");
+        var mouseStart = {};
+        var divStart = {};
+        var rightStart = {};
+        var bottomStart = {};
+        // drag from right
+        right.onmousedown = function (ev) {
+            var oEvent = ev || event;
+            mouseStart.x = oEvent.clientX;
+            mouseStart.y = oEvent.clientY;
+            rightStart.x = right.offsetLeft;
+            if (right.setCapture) {
+                right.onmousemove = doDragToRightBottomToRight;
+                right.onmouseup = stopDragToRightBottomToRight;
+                right.setCapture();
+            }
+            else {
+                document.addEventListener("mousemove", doDragToRightBottomToRight, true);
+                document.addEventListener("mouseup", stopDragToRightBottomToRight, true);
+            }
+        };
+        function doDragToRightBottomToRight(ev) {
+            var oEvent = ev || event;
+            var l = oEvent.clientX - mouseStart.x + rightStart.x;
+            var w = l + el_dlg_right_bottom.offsetWidth;
+            if (w < el_dlg_right_bottom.offsetWidth) {
+                w = el_dlg_right_bottom.offsetWidth;
+            }
+            else if (w > document.documentElement.clientWidth - el_dialog.offsetLeft) {
+                w = document.documentElement.clientWidth - el_dialog.offsetLeft - 2;
+            }
+            if (w < minWidth) return;
+            el_dialog.style.width = w + "px";
+        };
+        function stopDragToRightBottomToRight() {
+            if (right.releaseCapture) {
+                right.onmousemove = null;
+                right.onmouseup = null;
+                right.releaseCapture();
+            }
+            else {
+                document.removeEventListener("mousemove", doDragToRightBottomToRight, true);
+                document.removeEventListener("mouseup", stopDragToRightBottomToRight, true);
+            }
+        };
+        // drag from bottom
+        bottom.onmousedown = function (ev) {
+            var oEvent = ev || event;
+            mouseStart.x = oEvent.clientX;
+            mouseStart.y = oEvent.clientY;
+            bottomStart.y = bottom.offsetTop;
+            if (bottom.setCapture) {
+                bottom.onmousemove = doDragToRightBottomToBottom;
+                bottom.onmouseup = stopDragToRightBottomToBottom;
+                bottom.setCapture();
+            }
+            else {
+                document.addEventListener("mousemove", doDragToRightBottomToBottom, true);
+                document.addEventListener("mouseup", stopDragToRightBottomToBottom, true);
+            }
+        };
+        function doDragToRightBottomToBottom(ev) {
+            var oEvent = ev || event;
+            var t = oEvent.clientY - mouseStart.y + bottomStart.y;
+            var h = t + el_dlg_right_bottom.offsetHeight;
+            if (h < el_dlg_right_bottom.offsetHeight) {
+                h = el_dlg_right_bottom.offsetHeight;
+            }
+            else if (h > document.documentElement.clientHeight - el_dialog.offsetTop) {
+                h = document.documentElement.clientHeight - el_dialog.offsetTop - 2;
+            }
+            if (h < minHeight) return;
+            el_dialog.style.height = h + "px";
+        };
+        function stopDragToRightBottomToBottom() {
+            if (bottom.releaseCapture) {
+                bottom.onmousemove = null;
+                bottom.onmouseup = null;
+                bottom.releaseCapture();
+            }
+            else {
+                document.removeEventListener("mousemove", doDragToRightBottomToBottom, true);
+                document.removeEventListener("mouseup", stopDragToRightBottomToBottom, true);
+            }
+        };
+        // drag from right bottom
+        el_dlg_right_bottom.onmousedown = function (ev) {
+            var oEvent = ev || event;
+            mouseStart.x = oEvent.clientX;
+            mouseStart.y = oEvent.clientY;
+            divStart.x = el_dlg_right_bottom.offsetLeft;
+            divStart.y = el_dlg_right_bottom.offsetTop;
+            if (el_dlg_right_bottom.setCapture) {
+                el_dlg_right_bottom.onmousemove = doDragToRightBottom;
+                el_dlg_right_bottom.onmouseup = stopDragToRightBottom;
+                el_dlg_right_bottom.setCapture();
+            }
+            else {
+                document.addEventListener("mousemove", doDragToRightBottom, true);
+                document.addEventListener("mouseup", stopDragToRightBottom, true);
+            }
+        };
+        function doDragToRightBottom(ev) {
+            var oEvent = ev || event;
+            var l = oEvent.clientX - mouseStart.x + divStart.x;
+            var t = oEvent.clientY - mouseStart.y + divStart.y;
+            var w = l + el_dlg_right_bottom.offsetWidth;
+            var h = t + el_dlg_right_bottom.offsetHeight;
+            if (w < el_dlg_right_bottom.offsetWidth) {
+                w = el_dlg_right_bottom.offsetWidth;
+            }
+            else if (w > document.documentElement.clientWidth - el_dialog.offsetLeft) {
+                w = document.documentElement.clientWidth - el_dialog.offsetLeft - 2;
+            }
+            if (h < el_dlg_right_bottom.offsetHeight) {
+                h = el_dlg_right_bottom.offsetHeight;
+            }
+            else if (h > document.documentElement.clientHeight - el_dialog.offsetTop) {
+                h = document.documentElement.clientHeight - el_dialog.offsetTop - 2;
+            }
+            if (w < minWidth) return;
+            el_dialog.style.width = w + "px";
+            if (h < minHeight) return;
+            el_dialog.style.height = h + "px";
+        };
+        function stopDragToRightBottom() {
+            if (el_dlg_right_bottom.releaseCapture) {
+                el_dlg_right_bottom.onmousemove = null;
+                el_dlg_right_bottom.onmouseup = null;
+                el_dlg_right_bottom.releaseCapture();
+            }
+            else {
+                document.removeEventListener("mousemove", doDragToRightBottom, true);
+                document.removeEventListener("mouseup", stopDragToRightBottom, true);
+            }
+        };
+    };
+</script>
+</html>

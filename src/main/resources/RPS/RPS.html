@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RPS</title>
+    <script src="jquery-1.10.2.min.js"></script>
+    <style>
+
+        body {
+            /*min-height: 100%;*/
+        }
+
+        .box {
+            border: 1px solid grey;
+            width: 100%;
+            height: 800px;
+
+        }
+        .player {
+            border: 1px solid grey;
+            width: 150px;
+            margin: 10px 10px;
+            position: relative;
+        }
+        .startBtn {
+            position:relative;
+            /*bottom: 10px;*/
+        }
+
+        .delP {
+            color: red;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+
+<br>
+
+
+<div>
+    <div id="player1" class="player">player1<button class="delP">X</button></div>
+    <div id="player2" class="player">player2<button class="delP">X</button></div>
+    <div id="player3" class="player">player3<button class="delP">X</button></div>
+    <div id="player4" class="player">player4<button class="delP">X</button></div>
+    <div id="player5" class="player">player5<button class="delP">X</button></div>
+
+</div>
+
+<div>The winner is <input id="result" type="text" value="" disabled/></div>
+<div class="startBtn" id="start"><button>start/restart</button></div>&nbsp
+
+<br>
+<div class="box">
+    <div id="player6" class="player">player6</div>
+    <div id="player7" class="player">player7</div>
+
+</div>
+</body>
+
+
+<script>
+    $(document).ready(function () {
+
+
+
+
+        $("#start").click(function () {
+            var player=$(".player");
+
+            $("#result").val("");
+
+            for (var i = 0; i <3 ; i++) {
+                var speed=200;
+                player.animate({left:'100px'},speed);
+                player.animate({top:'100px'},speed);
+                player.animate({left:'0px'},speed);
+                player.animate({top:'0px'},speed);
+
+
+            }
+            player.fadeToggle(800);
+            player.fadeToggle(800,function () {
+                rand=Math.round(Math.random()*player.length);
+                $("#result").val($(".player").eq(rand).text());
+
+            });
+
+
+
+
+
+        })
+
+        $(".delP").click(function () {
+            $(this).parent().hide();
+        })
+
+
+
+
+    })
+</script>
+</html>

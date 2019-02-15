@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>jQuery_test</title>
+
+    <meta charset="utf-8"/>
+    <script src="jquery-1.10.2.min.js"></script>
+    <link rel="stylesheet"  href="main.css" type="text/css" />
+</head>
+
+<body>
+hello world
+
+<div class="navbar">nav_bar</div>
+<div class="tabbar">
+    <button class="tab" id="mainContent">home</button>
+    <button class="tab" id="innerContent1">conf</button>
+    <button class="tab" id="innerContent2">home2</button>
+    <button class="tab" id="innerContent3">montain</button>
+
+
+
+</div>
+
+<div id="main">
+    <iframe id="mainContent_frame" src="mainContent.html" class="frame" seamless></iframe>
+</div>
+
+
+
+
+
+<br>
+<br>
+<br>
+<div><button>test</button></div>
+
+
+</body>
+
+
+<script>
+    $(document).ready(function(){
+
+        $(".tab").click(function () {
+            $("iframe").hide();
+            if($("\#"+$(this).attr("id")+"_frame").length>0){
+            }
+            else {
+                $("#main").append("<iframe id=\""+$(this).attr("id")+"_frame\" src=\""+$(this).attr("id")+".html\" class='frame' seamless></iframe>");
+            }
+            $("\#"+$(this).attr("id")+"_frame").show();
+
+
+            // $("#content").attr("src",$(this).attr("id")+".html");
+            // alert("切换了");
+        })
+
+    });
+
+</script>
+</html>

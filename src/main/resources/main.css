@@ -1,0 +1,49 @@
+.tabbar,
+.navbar {
+    border: 1px solid aquamarine;
+}
+
+
+.hpbar,
+.lpbar,
+.bar {
+    display: inline-block;
+    height: 10px;
+    width: 200px;
+    margin: 2px 2px;
+    border: 1px solid black;
+}
+
+
+.box,
+.role {
+    width: 220px;
+    border: 1px solid black;
+    display: inline-block;
+}
+/*.hpbar {*/
+
+/*}*/
+/*.lpbar {*/
+
+
+/*}*/
+
+.left,
+.right {
+    display: block;
+    width: 250px;
+    border: 2px solid red;
+
+}
+
+.left {
+    float: left;
+}
+.right {
+    float: right;
+}
+
+.frame {
+    width: 100%;
+}

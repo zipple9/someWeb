@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+</head>
+<body>
+
+主内容
+内框架
+<button>change</button>
+
+</body>
+
+<script>
+    $(document).ready(function () {
+        $("button").click(function () {
+            window.top.$(".navbar").toggle();
+        })
+    })
+</script>
+</html>
