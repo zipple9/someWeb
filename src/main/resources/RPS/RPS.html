@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>RPS</title>
-    <script src="jquery-1.10.2.min.js"></script>
     <style>
 
         body {
@@ -21,7 +20,15 @@
             width: 150px;
             margin: 10px 10px;
             position: relative;
+            display: none;
         }
+        .playerP {
+            border: 1px solid grey;
+            width: 150px;
+            margin: 10px 10px;
+            position: relative;
+        }
+
         .startBtn {
             position:relative;
             /*bottom: 10px;*/
@@ -30,8 +37,21 @@
         .delP {
             color: red;
             float: right;
+            font-size: 11px;
+        }
+
+        .addP {
+            color: #0E9728;
+            font-size: 11px;
+            float: right;
+
+        }
+
+        .show {
+
         }
     </style>
+    <script src="../js/jquery-3.3.1.js"></script>
 </head>
 <body>
 
@@ -39,21 +59,30 @@
 
 
 <div>
-    <div id="player1" class="player">player1<button class="delP">X</button></div>
-    <div id="player2" class="player">player2<button class="delP">X</button></div>
-    <div id="player3" class="player">player3<button class="delP">X</button></div>
-    <div id="player4" class="player">player4<button class="delP">X</button></div>
-    <div id="player5" class="player">player5<button class="delP">X</button></div>
-
+    <div id="player1" class="player">player1<button class="delP">&#9747;</button></div>
+    <div id="player2" class="player">player2<button class="delP">&#9747;</button></div>
+    <div id="player3" class="player">player3<button class="delP">&#9747;</button></div>
+    <div id="player4" class="player">player4<button class="delP">&#9747;</button></div>
+    <div id="player5" class="player">player5<button class="delP">&#9747;</button></div>
+    <div id="player6" class="player">player6<button class="delP">&#9747;</button></div>
+    <div id="player7" class="player">player7<button class="delP">&#9747;</button></div>
 </div>
 
 <div>The winner is <input id="result" type="text" value="" disabled/></div>
 <div class="startBtn" id="start"><button>start/restart</button></div>&nbsp
 
+
+<div class="show"></div>
+
 <br>
 <div class="box">
-    <div id="player6" class="player">player6</div>
-    <div id="player7" class="player">player7</div>
+    <div id="player1p" class="playerP">player1<button class="addP">&#9745;</button></div>
+    <div id="player2p" class="playerP">player2<button class="addP">&#9745;</button></div>
+    <div id="player3p" class="playerP">player3<button class="addP">&#9745;</button></div>
+    <div id="player4p" class="playerP">player4<button class="addP">&#9745;</button></div>
+    <div id="player5p" class="playerP">player5<button class="addP">&#9745;</button></div>
+    <div id="player6p" class="playerP">player6<button class="addP">&#9745;</button></div>
+    <div id="player7p" class="playerP">player7<button class="addP">&#9745;</button></div>
 
 </div>
 </body>
@@ -66,12 +95,13 @@
 
 
         $("#start").click(function () {
-            var player=$(".player");
+            var player=$(".player:visible");
 
             $("#result").val("");
+            $(".show").text("");
 
             for (var i = 0; i <3 ; i++) {
-                var speed=200;
+                var speed=100;
                 player.animate({left:'100px'},speed);
                 player.animate({top:'100px'},speed);
                 player.animate({left:'0px'},speed);
@@ -79,12 +109,25 @@
 
 
             }
-            player.fadeToggle(800);
-            player.fadeToggle(800,function () {
-                rand=Math.round(Math.random()*player.length);
-                $("#result").val($(".player").eq(rand).text());
+            player.fadeToggle(200);
+            player.fadeToggle(200);
+            setTimeout(function () {
+                rand=Math.floor(Math.random()*player.length+1);
+                console.log(rand)
+                var result=player.eq(rand-1).attr("id");
+                // alert(result);
+                console.log(result)
+                $("#result").val(result);
+                $(".show").text(result)
+                    .animate({fontSize:'50px'},300)
+                for (var i = 0; i <6 ; i++) {
+                    $(".show").fadeToggle(300)
+                }
+            },1600)
 
-            });
+
+
+
 
 
 
@@ -93,7 +136,15 @@
         })
 
         $(".delP").click(function () {
-            $(this).parent().hide();
+            $(this).parent().hide()
+            $($(this).parent().attr("id")+"p").show()
+
+        })
+        
+        $(".addP").click(function () {
+            $(this).parent().hide()
+            $("#"+$(this).parent().attr("id").substring(0,7)).show()
+
         })
 
 
