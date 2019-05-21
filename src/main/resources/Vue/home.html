@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div id="app">
+    asdfasdf
+    <br>
+    <select v-model="testData">
+        <option value="222">222</option>
+        <option value="333">333</option>
+        <option value="test">test!@#$%</option>
+
+    </select>
+    <br>
+    {{testData}}
+</div>
+
+
+
+
+</body>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var app= new Vue({
+        el:"#app",
+        data:{
+            testData:"wulala"
+        },
+        created:function () {
+            console.log("vue start")
+        }
+
+
+
+    })
+</script>
+</html>
